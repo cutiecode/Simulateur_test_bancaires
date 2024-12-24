@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Simulateur de Tests des Transactions Bancaires</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulateur de Tests Bancaires</h1>
+        <form id="transactionForm">
+            <!-- ID du Compte -->
+            <label for="compte_id">ID du Compte:</label>
+            <input 
+                type="number"
+                id="compte_id"
+                name="compte_id"
+                required 
+                min="1"
+                max="50"
+                step="1"
+                pattern="\d+"
+                placeholder="Entrez un ID entre 1 et 50"
+                title="L'ID doit être un nombre entier compris entre 1 et 50">
+            <br><br>
+
+            <!-- Type de Transaction -->
+            <label for="type_transaction">Type de Transaction:</label>
+            <select 
+                id="type_transaction" 
+                name="type_transaction"
+                required>
+                <option value="retrait">Retrait</option>
+                <option value="depot">Dépôt</option>
+            </select>
+            <br><br>
+
+            <!-- Montant -->
+            <label for="montant">Montant :</label>
+            <input 
+                type="number"
+                id="montant"
+                name="montant"
+                required 
+                pattern="^\d+(\.\d{1,2})?$"
+                placeholder="Exemple : 1000"
+                title="Le montant doit être un nombre supérieur à 0 avec au maximum deux chiffres après la virgule">
+            <br><br>
+
+            <!-- Bouton de soumission -->
+            <button type="submit">Valider</button>
+
+        </form>
+
+        <!-- Résultat -->
+        <div id="result"></div>
+
+        <!-- Export Button -->
+<form action="/export-logs" method="get">
+    <button type="submit" 
+    class="btn btn-primary">Exporter les Logs</button>
+</form>
+    </div>
+
+    <script>
+       document.getElementById('transactionForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    
+    const compte_id = parseInt(document.getElementById('compte_id').value); // Conversion en entier
+    const type_transaction = document.getElementById('type_transaction').value;
+    const montant = parseFloat(document.getElementById('montant').value); // Conversion en flottant
+    
+    const response = await fetch('/transaction', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ compte_id, type_transaction, montant })
+    });
+    const result = await response.json();
+    console.log(result);
+    document.getElementById('result').textContent = result.message;
+});
+
+    </script>
+</body>
+</html>
