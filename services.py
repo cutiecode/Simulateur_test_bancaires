@@ -1,6 +1,6 @@
 import pandas as pd
 from models import db, Compte, Transaction, TestResult
-from datetime import datetime
+from datetime import datetime, date
 
 def valider_transaction(compte_id, type_transaction, montant):
     try:
@@ -35,7 +35,7 @@ def valider_transaction(compte_id, type_transaction, montant):
             compte_id=compte_id,
             montant=montant,
             type_transaction=type_transaction,
-            date_transaction=date.now(),  # Utilisez `date.today()` pour obtenir la date actuelle
+            date_transaction=date.today(),  # Utilisez `date.today()` pour obtenir la date actuelle
             status=statut,
             validation_message=message
         )
@@ -53,7 +53,7 @@ def valider_transaction(compte_id, type_transaction, montant):
             transaction_id=nouvelle_transaction.transaction_id,
             result_status=statut,
             log_details=log_message,
-            created_at=date.now()  # Date et heure actuelles pour le log
+            created_at=date.today()  # Date et heure actuelles pour le log
         )
 
         # Ajouter le résultat de test à la base de données
@@ -93,7 +93,7 @@ def exporter_logs():
         df = pd.DataFrame(result_data)
 
         # Définir le chemin du fichier Excel
-        file_path = "logs_export.xlsx"
+        file_path = "logs.xlsx"
 
         # Exporter le DataFrame en fichier Excel
         df.to_excel(file_path, index=False)

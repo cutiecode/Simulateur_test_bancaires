@@ -56,7 +56,7 @@ class TestResult(db.Model):
     transaction_id = db.Column(db.Integer, db.ForeignKey('transactions.transaction_id'))
     result_status = db.Column(db.String(50))
     log_details = db.Column(db.Text)
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.Date)
 
     transaction = db.relationship('Transaction', backref=db.backref('test_results', lazy=True))
 

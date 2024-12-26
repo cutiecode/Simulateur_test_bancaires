@@ -1,17 +1,22 @@
 from flask import Flask, request, render_template, jsonify, send_file
 from models import db
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
+from dotenv import load_dotenv
 from services import valider_transaction, exporter_logs
 from sqlalchemy import text
+import os
+from datetime import datetime, date
 
+load_dotenv()
 
 # Initialisation de l'application Flask
 app = Flask(__name__)
-app.config.from_object(Config)
 
-# Initialisation de SQLAlchemy avec l'application Flask
+# Configurer l'application avec les variables d'environnement
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY') 
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DB')}" # Initialiser SQLAlchemy avec l'application 
 db.init_app(app)
+
 
 @app.route('/')
 def home():
@@ -70,6 +75,7 @@ def nouvelle_transaction():
     data = request.json
     compte_id = data.get('compte_id')
     type_transaction = data.get('type_transaction')
+    date_transaction = data.get('transaction_date', date.today())
     montant = data.get('montant')
 
     # Appeler la fonction pour valider la transaction

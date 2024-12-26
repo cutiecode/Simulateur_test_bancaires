@@ -5,6 +5,6 @@ import os
 load_dotenv()
 
 # Configurations
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("mysql://root:''@localhost:3306/BanqueDB")
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"  # Par défaut, False
