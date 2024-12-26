@@ -35,7 +35,7 @@ def valider_transaction(compte_id, type_transaction, montant):
             compte_id=compte_id,
             montant=montant,
             type_transaction=type_transaction,
-            date_transaction=date.today(),  # Utilisez `date.today()` pour obtenir la date actuelle
+            date_transaction=date.today(),  
             status=statut,
             validation_message=message
         )
@@ -53,7 +53,7 @@ def valider_transaction(compte_id, type_transaction, montant):
             transaction_id=nouvelle_transaction.transaction_id,
             result_status=statut,
             log_details=log_message,
-            created_at=date.today()  # Date et heure actuelles pour le log
+            created_at=date.today()  
         )
 
         # Ajouter le résultat de test à la base de données

@@ -37,7 +37,7 @@ def effectuer_transaction():
     if not request.json:
         return jsonify({"status": "Échec", "message": "Aucune donnée reçue"}), 400
     data = request.json
-    print("Données reçues:", data)  # Ajoutez cette ligne pour inspecter les données
+    print("Données reçues:", data)  
     
     if 'compte_id' not in data:
         return jsonify({"status": "Échec", "message": "Champ 'compte_id' manquant"}), 400
@@ -63,10 +63,10 @@ def effectuer_transaction():
     except ValueError:
         return jsonify({"status": "Échec", "message": "Montant invalide"}), 400
 
-    # Appeler la fonction de service pour valider la transaction
+
     resultat = valider_transaction(compte_id, type_transaction, montant)
 
-    # Retourner la réponse JSON
+   
     return jsonify(resultat)
 
 
@@ -89,7 +89,7 @@ def export_logs():
         file_path = exporter_logs()
 
         # Retourner le fichier Excel en tant que téléchargement
-        return send_file(file_path, as_attachment=True, download_name='logs_export.xlsx')
+        return send_file(file_path, as_attachment=True, download_name='logs.xlsx')
 
     except Exception as e:
         return f"Erreur lors de l'exportation des logs : {str(e)}", 500
