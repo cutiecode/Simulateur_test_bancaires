@@ -82,7 +82,7 @@ def nouvelle_transaction():
     resultat = valider_transaction(compte_id, type_transaction, montant)
     return jsonify(resultat)
 
-@app.route('/export-logs', methods=['GET'])
+@app.route('/exporter_logs', methods=['GET'])
 def export_logs():
     try:
         # Appeler la fonction pour exporter les logs
